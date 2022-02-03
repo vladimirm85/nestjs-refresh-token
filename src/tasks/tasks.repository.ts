@@ -1,16 +1,11 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { Task } from './task.entity';
 import { NotFoundException } from '@nestjs/common';
-import {
-  CreateTaskDto,
-  UpdateTaskStatusDto,
-} from 'src/tasks/dto';
+import { CreateTaskDto, UpdateTaskStatusDto } from 'src/tasks/dto';
 
 @EntityRepository(Task)
 export class TasksRepository extends Repository<Task> {
-  async createTask(
-    createTaskDto: CreateTaskDto,
-  ): Promise<Task> {
+  async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
     return await this.save(createTaskDto);
   }
 
@@ -21,9 +16,7 @@ export class TasksRepository extends Repository<Task> {
     const task = await this.getTask(id);
 
     if (!task) {
-      throw new NotFoundException(
-        `Task with id: ${id} not found`,
-      );
+      throw new NotFoundException(`Task with id: ${id} not found`);
     }
 
     task.status = status;
@@ -31,22 +24,18 @@ export class TasksRepository extends Repository<Task> {
     return await this.save(task);
   }
 
-  async deleteTask(id: string): Promise<Task> {
-    const task = await this.getTask(id);
-
-    if (!task) {
-      throw new NotFoundException(
-        `Task with id: ${id} not found`,
-      );
-    }
-
-    await this.createQueryBuilder()
+  async deleteTask(id: string): Promise<boolean> {
+    const res = await this.createQueryBuilder()
       .delete()
       .from(Task)
       .where('id = :id', { id })
       .execute();
 
-    return task;
+    if (!res.affected) {
+      throw new NotFoundException(`Task with id: ${id} not found`);
+    }
+
+    return true;
   }
 
   async getAllTasks(): Promise<Task[]> {
@@ -57,9 +46,7 @@ export class TasksRepository extends Repository<Task> {
     const task = await this.findOne(id);
 
     if (!task) {
-      throw new NotFoundException(
-        `Task with id: ${id} not found`,
-      );
+      throw new NotFoundException(`Task with id: ${id} not found`);
     }
 
     return task;

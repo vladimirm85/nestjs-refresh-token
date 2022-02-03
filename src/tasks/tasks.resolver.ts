@@ -23,8 +23,8 @@ export class TaskResolver {
     );
   }
 
-  @Mutation(() => Task)
-  async deleteTask(@Args('id') id: string): Promise<Task> {
+  @Mutation(() => Boolean)
+  async deleteTask(@Args('id') id: string): Promise<boolean> {
     return await this.taskService.deleteTask(id);
   }
 

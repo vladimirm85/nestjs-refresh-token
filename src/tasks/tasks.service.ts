@@ -23,7 +23,7 @@ export class TasksService {
     return this.tasksRepository.createTask(createTaskDto);
   }
 
-  async deleteTask(id: string): Promise<Task> {
+  async deleteTask(id: string): Promise<boolean> {
     return this.tasksRepository.deleteTask(id);
   }
 
