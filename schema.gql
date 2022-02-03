@@ -32,18 +32,32 @@ enum TaskStatus {
 type Query {
   recipe(id: String!): Recipe!
   recipes(skip: Int = 0, take: Int = 25): [Recipe!]!
+  getTask(id: String!): Task!
   getAllTasks: [Task!]!
 }
 
 type Mutation {
   addRecipe(newRecipeData: NewRecipeInput!): Recipe!
   removeRecipe(id: String!): Boolean!
+  createTask(createTaskDto: CreateTaskDto!): Task!
+  updateTaskStatus(updateTaskStatusDto: UpdateTaskStatusDto!): Task!
+  deleteTask(id: String!): Task!
 }
 
 input NewRecipeInput {
   title: String!
   description: String
   ingredients: [String!]!
+}
+
+input CreateTaskDto {
+  title: String!
+  description: String!
+}
+
+input UpdateTaskStatusDto {
+  id: String!
+  status: TaskStatus!
 }
 
 type Subscription {
