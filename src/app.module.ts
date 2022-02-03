@@ -1,14 +1,13 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
-import { RecipesModule } from './recipes/recipes.module';
 import { TasksModule } from './tasks/tasks.module';
+import { DateScalar } from './common/scalars/date.scalar';
 import { config } from 'dotenv';
 config();
 
 @Module({
   imports: [
-    RecipesModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST,
@@ -25,5 +24,6 @@ config();
     }),
     TasksModule,
   ],
+  providers: [DateScalar],
 })
 export class AppModule {}
