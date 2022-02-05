@@ -2,13 +2,26 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type User {
+  id: ID!
+  username: String!
+  createdDate: Date!
+  updatedDate: Date!
+  password: String!
+}
+
+"""Date custom scalar type"""
+scalar Date
+
 type Task {
   id: ID!
   title: String!
   description: String!
   status: TaskStatus!
   createdDate: Date!
+  createdBy: User!
   updatedDate: Date!
+  createdById: String!
 }
 
 enum TaskStatus {
@@ -16,9 +29,6 @@ enum TaskStatus {
   IN_PROGRESS
   DONE
 }
-
-"""Date custom scalar type"""
-scalar Date
 
 type Query {
   getTask(id: String!): Task!
@@ -29,6 +39,7 @@ type Mutation {
   createTask(createTaskDto: CreateTaskDto!): Task!
   updateTaskStatus(updateTaskStatusDto: UpdateTaskStatusDto!): Task!
   deleteTask(id: String!): Boolean!
+  signUp(signUpData: AuthCredentialDto!): Boolean!
 }
 
 input CreateTaskDto {
@@ -39,4 +50,9 @@ input CreateTaskDto {
 input UpdateTaskStatusDto {
   id: String!
   status: TaskStatus!
+}
+
+input AuthCredentialDto {
+  username: String!
+  password: String!
 }

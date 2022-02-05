@@ -1,11 +1,11 @@
-import { IsEnum, IsNotEmpty } from "class-validator";
-import { TaskStatus } from "../task.entity";
-import { Field, InputType } from "@nestjs/graphql";
+import { IsEnum, IsUUID } from 'class-validator';
+import { TaskStatus } from '../task.entity';
+import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
 export class UpdateTaskStatusDto {
   @Field()
-  @IsNotEmpty()
+  @IsUUID()
   id: string;
 
   @Field(() => TaskStatus)

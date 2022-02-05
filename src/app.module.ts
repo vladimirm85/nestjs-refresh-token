@@ -3,8 +3,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TasksModule } from './tasks/tasks.module';
 import { DateScalar } from './common/scalars/date.scalar';
-import { config } from 'dotenv';
 import { AuthModule } from './auth/auth.module';
+import { config } from 'dotenv';
 config();
 
 @Module({

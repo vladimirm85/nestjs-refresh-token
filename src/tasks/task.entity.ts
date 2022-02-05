@@ -12,7 +12,7 @@ import {
   ObjectType,
   registerEnumType,
 } from '@nestjs/graphql';
-import { User } from 'src/auth/user.entity';
+import { User } from 'src/auth';
 
 export enum TaskStatus {
   OPEN = 'OPEN',
