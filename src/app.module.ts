@@ -4,6 +4,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { TasksModule } from './tasks/tasks.module';
 import { DateScalar } from './common/scalars/date.scalar';
 import { config } from 'dotenv';
+import { AuthModule } from './auth/auth.module';
 config();
 
 @Module({
@@ -23,6 +24,7 @@ config();
       autoSchemaFile: 'schema.gql',
     }),
     TasksModule,
+    AuthModule,
   ],
   providers: [DateScalar],
 })

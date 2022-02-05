@@ -15,10 +15,6 @@ export class TasksRepository extends Repository<Task> {
   }: UpdateTaskStatusDto): Promise<Task> {
     const task = await this.getTask(id);
 
-    if (!task) {
-      throw new NotFoundException(`Task with id: ${id} not found`);
-    }
-
     task.status = status;
 
     return await this.save(task);

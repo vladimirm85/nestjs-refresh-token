@@ -2,10 +2,17 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Field, ID, ObjectType, registerEnumType } from '@nestjs/graphql';
+import {
+  Field,
+  ID,
+  ObjectType,
+  registerEnumType,
+} from '@nestjs/graphql';
+import { User } from 'src/auth/user.entity';
 
 export enum TaskStatus {
   OPEN = 'OPEN',
@@ -26,12 +33,12 @@ export class Task {
   @Field(() => ID)
   id: string;
 
-  @Column()
   @Field()
+  @Column()
   title: string;
 
-  @Column()
   @Field()
+  @Column()
   description: string;
 
   @Column({
@@ -45,6 +52,13 @@ export class Task {
   @Field()
   @CreateDateColumn()
   createdDate: Date;
+
+  @Column()
+  createdById: string;
+
+  @Field(() => User)
+  @ManyToOne(() => User)
+  createdBy: User;
 
   @Field()
   @UpdateDateColumn()
