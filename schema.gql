@@ -1,0 +1,59 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  id: ID!
+  username: String!
+  password: String!
+  createdDate: Date!
+  updatedDate: Date!
+}
+
+"""Date custom scalar type"""
+scalar Date
+
+type Task {
+  id: ID!
+  status: TaskStatus!
+  createdBy: User!
+  title: String!
+  description: String!
+  createdDate: Date!
+  createdById: String!
+  updatedDate: Date!
+}
+
+enum TaskStatus {
+  OPEN
+  IN_PROGRESS
+  DONE
+}
+
+type Query {
+  getUser(id: String!): User!
+  getTask(id: String!): Task!
+  getAllTasks: [Task!]!
+}
+
+type Mutation {
+  createTask(createTaskDto: CreateTaskDto!): Task!
+  updateTaskStatus(updateTaskStatusDto: UpdateTaskStatusDto!): Task!
+  deleteTask(id: String!): Boolean!
+  signUp(signUpData: AuthCredentialDto!): Boolean!
+}
+
+input CreateTaskDto {
+  title: String!
+  description: String!
+}
+
+input UpdateTaskStatusDto {
+  id: String!
+  status: TaskStatus!
+}
+
+input AuthCredentialDto {
+  username: String!
+  password: String!
+}
