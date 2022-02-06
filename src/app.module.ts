@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
-import { TasksModule } from './tasks/tasks.module';
-import { DateScalar } from './common/scalars/date.scalar';
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from 'src/auth/auth.module';
+import { DataloaderModule } from 'src/dataloader/dataloader.module';
+import { DataloaderService } from 'src/dataloader/dataloader.service';
+import { DateScalar } from 'src/common/scalars/date.scalar';
+import { TasksModule } from 'src/tasks/tasks.module';
+import { UsersModule } from 'src/users/users.module';
 import { config } from 'dotenv';
 config();
 
@@ -19,12 +22,21 @@ config();
       autoLoadEntities: true,
       synchronize: true,
     }),
-    GraphQLModule.forRoot({
-      installSubscriptionHandlers: true,
-      autoSchemaFile: 'schema.gql',
+    GraphQLModule.forRootAsync({
+      imports: [DataloaderModule],
+      useFactory: (dataloaderService: DataloaderService) => ({
+        installSubscriptionHandlers: true,
+        autoSchemaFile: 'schema.gql',
+        context: () => ({
+          dataloader: dataloaderService.createLoaders(),
+        }),
+      }),
+      inject: [DataloaderService],
     }),
     TasksModule,
     AuthModule,
+    UsersModule,
+    DataloaderModule,
   ],
   providers: [DateScalar],
 })

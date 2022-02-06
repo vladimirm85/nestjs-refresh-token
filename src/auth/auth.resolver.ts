@@ -1,10 +1,10 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { User } from './user.entity';
+import { AuthCredentialDto } from './dto';
 import { AuthService } from './auth.service';
-import { AuthCredentialDto } from 'src/auth/dto';
+import { User } from 'src/users';
 
 @Resolver(() => User)
-export class UserResolver {
+export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
 
   @Mutation(() => Boolean)

@@ -14,18 +14,15 @@ export class User {
   @Field(() => ID)
   id: string;
 
-  @Field()
   @Column()
   username: string;
 
   @Column()
   password: string;
 
-  @Field()
   @CreateDateColumn()
   createdDate: Date;
 
-  @Field()
   @UpdateDateColumn()
   updatedDate: Date;
 }

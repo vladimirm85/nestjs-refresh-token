@@ -12,7 +12,7 @@ import {
   ObjectType,
   registerEnumType,
 } from '@nestjs/graphql';
-import { User } from 'src/auth';
+import { User } from 'src/users';
 
 export enum TaskStatus {
   OPEN = 'OPEN',
@@ -33,11 +33,9 @@ export class Task {
   @Field(() => ID)
   id: string;
 
-  @Field()
   @Column()
   title: string;
 
-  @Field()
   @Column()
   description: string;
 
@@ -49,7 +47,6 @@ export class Task {
   @Field(() => TaskStatus)
   status: TaskStatus;
 
-  @Field()
   @CreateDateColumn()
   createdDate: Date;
 
@@ -60,7 +57,6 @@ export class Task {
   @ManyToOne(() => User)
   createdBy: User;
 
-  @Field()
   @UpdateDateColumn()
   updatedDate: Date;
 }
