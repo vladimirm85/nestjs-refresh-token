@@ -3,12 +3,19 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
 import { AuthModule } from 'src/auth/auth.module';
 import { DataloaderModule } from 'src/dataloader/dataloader.module';
-import { DataloaderService } from 'src/dataloader/dataloader.service';
+import {
+  DataLoaders,
+  DataloaderService,
+} from 'src/dataloader/dataloader.service';
 import { DateScalar } from 'src/common/scalars/date.scalar';
 import { TasksModule } from 'src/tasks/tasks.module';
 import { UsersModule } from 'src/users/users.module';
 import { config } from 'dotenv';
 config();
+
+export interface GraphQLContext {
+  dataloader: DataLoaders;
+}
 
 @Module({
   imports: [
@@ -27,7 +34,7 @@ config();
       useFactory: (dataloaderService: DataloaderService) => ({
         installSubscriptionHandlers: true,
         autoSchemaFile: 'schema.gql',
-        context: () => ({
+        context: (): GraphQLContext => ({
           dataloader: dataloaderService.createLoaders(),
         }),
       }),
@@ -36,7 +43,6 @@ config();
     TasksModule,
     AuthModule,
     UsersModule,
-    DataloaderModule,
   ],
   providers: [DateScalar],
 })
