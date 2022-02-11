@@ -9,30 +9,48 @@ import {
 } from '@nestjs/graphql';
 import { Task } from './task.entity';
 import { TasksService } from './tasks.service';
-import { CreateTaskDto, UpdateTaskStatusDto } from './dto';
-import { ParseUUIDPipe } from '@nestjs/common';
+import {
+  CreateTask,
+  CreateTaskDto,
+  UpdateTaskStatus,
+  UpdateTaskStatusDto,
+} from './dto';
+import { ParseUUIDPipe, UseGuards } from '@nestjs/common';
 import { User } from 'src/users';
 import { DataLoaders } from 'src/dataloader/dataloader.service';
+import { JWTGuard } from 'src/auth/guard/jwt.guard';
+import { CurrentUser } from 'src/auth/current-user.decorator';
 
 @Resolver(() => Task)
 export class TaskResolver {
   constructor(private readonly taskService: TasksService) {}
 
   @Mutation(() => Task)
+  @UseGuards(JWTGuard)
   async createTask(
+    @CurrentUser() currentUser: User,
     @Args('createTaskDto') createTaskDto: CreateTaskDto,
   ): Promise<Task> {
-    return await this.taskService.createTask(createTaskDto);
+    const taskData: CreateTask = {
+      ...createTaskDto,
+      createdBy: currentUser,
+    };
+    return await this.taskService.createTask(taskData);
   }
 
   @Mutation(() => Task)
+  @UseGuards(JWTGuard)
   async updateTaskStatus(
+    @CurrentUser() currentUser: User,
     @Args('updateTaskStatusDto')
     updateTaskStatusDto: UpdateTaskStatusDto,
   ): Promise<Task> {
-    return await this.taskService.updateTaskStatus(
-      updateTaskStatusDto,
-    );
+    const taskData: UpdateTaskStatus = {
+      ...updateTaskStatusDto,
+      currentUser,
+    };
+
+    return await this.taskService.updateTaskStatus(taskData);
   }
 
   @Mutation(() => Boolean)

@@ -39,7 +39,7 @@ export class AuthResolver {
   }
 
   @Mutation(() => AuthenticationData)
-  async login(
+  async signIn(
     @Args('signInData') { username, password }: LoginCredentialDto,
   ): Promise<AuthenticationData> {
     const user = await this.usersService.getUserByUsername(username);

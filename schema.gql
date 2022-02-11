@@ -42,9 +42,10 @@ enum TaskStatus {
 }
 
 type Query {
-  getUser: User!
+  getUser(id: String!): User!
   getTask(id: String!): Task!
   getAllTasks: [Task!]!
+  me: User!
 }
 
 type Mutation {
@@ -52,7 +53,7 @@ type Mutation {
   updateTaskStatus(updateTaskStatusDto: UpdateTaskStatusDto!): Task!
   deleteTask(id: String!): Boolean!
   signUp(signUpData: RegisterCredentialDto!): AuthenticationData!
-  login(signInData: LoginCredentialDto!): AuthenticationData!
+  signIn(signInData: LoginCredentialDto!): AuthenticationData!
   refresh(refreshData: RefreshTokenDto!): AuthenticationData!
 }
 

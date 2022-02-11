@@ -1,6 +1,7 @@
 import { IsEnum, IsUUID } from 'class-validator';
 import { TaskStatus } from '../task.entity';
 import { Field, InputType } from '@nestjs/graphql';
+import { User } from 'src/users';
 
 @InputType()
 export class UpdateTaskStatusDto {
@@ -11,4 +12,8 @@ export class UpdateTaskStatusDto {
   @Field(() => TaskStatus)
   @IsEnum(TaskStatus)
   readonly status: TaskStatus;
+}
+
+export class UpdateTaskStatus extends UpdateTaskStatusDto {
+  currentUser: User;
 }
