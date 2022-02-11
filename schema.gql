@@ -13,6 +13,17 @@ type User {
 """Date custom scalar type"""
 scalar Date
 
+type AuthenticationDataTokens {
+  type: String!
+  token: String!
+  refreshToken: String
+}
+
+type AuthenticationData {
+  user: User!
+  payload: AuthenticationDataTokens!
+}
+
 type Task {
   id: ID!
   status: TaskStatus!
@@ -31,7 +42,7 @@ enum TaskStatus {
 }
 
 type Query {
-  getUser(id: String!): User!
+  getUser: User!
   getTask(id: String!): Task!
   getAllTasks: [Task!]!
 }
@@ -40,7 +51,9 @@ type Mutation {
   createTask(createTaskDto: CreateTaskDto!): Task!
   updateTaskStatus(updateTaskStatusDto: UpdateTaskStatusDto!): Task!
   deleteTask(id: String!): Boolean!
-  signUp(signUpData: AuthCredentialDto!): Boolean!
+  signUp(signUpData: RegisterCredentialDto!): AuthenticationData!
+  login(signInData: LoginCredentialDto!): AuthenticationData!
+  refresh(refreshData: RefreshTokenDto!): AuthenticationData!
 }
 
 input CreateTaskDto {
@@ -53,7 +66,16 @@ input UpdateTaskStatusDto {
   status: TaskStatus!
 }
 
-input AuthCredentialDto {
+input RegisterCredentialDto {
   username: String!
   password: String!
+}
+
+input LoginCredentialDto {
+  username: String!
+  password: String!
+}
+
+input RefreshTokenDto {
+  refreshToken: String!
 }

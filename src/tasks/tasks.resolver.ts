@@ -12,7 +12,6 @@ import { TasksService } from './tasks.service';
 import { CreateTaskDto, UpdateTaskStatusDto } from './dto';
 import { ParseUUIDPipe } from '@nestjs/common';
 import { User } from 'src/users';
-import DataLoader from 'dataloader';
 import { DataLoaders } from 'src/dataloader/dataloader.service';
 
 @Resolver(() => Task)
@@ -58,8 +57,7 @@ export class TaskResolver {
   @ResolveField('createdBy', () => User)
   getCreatedBy(
     @Parent() { createdById }: Task,
-    @Context('dataloader')
-    dataloader: DataLoaders,
+    @Context('dataloader') dataloader: DataLoaders,
   ): Promise<User> {
     return dataloader.usersLoader.load(createdById);
   }

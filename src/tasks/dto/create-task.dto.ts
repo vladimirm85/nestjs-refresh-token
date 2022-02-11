@@ -6,10 +6,10 @@ export class CreateTaskDto {
   @Field()
   @IsNotEmpty()
   @IsString()
-  title: string;
+  readonly title: string;
 
   @Field()
   @IsNotEmpty()
   @IsString()
-  description: string;
+  readonly description: string;
 }

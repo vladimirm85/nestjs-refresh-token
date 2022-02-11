@@ -6,9 +6,9 @@ import { Field, InputType } from '@nestjs/graphql';
 export class UpdateTaskStatusDto {
   @Field()
   @IsUUID()
-  id: string;
+  readonly id: string;
 
   @Field(() => TaskStatus)
   @IsEnum(TaskStatus)
-  status: TaskStatus;
+  readonly status: TaskStatus;
 }

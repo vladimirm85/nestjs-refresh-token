@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
-import { AuthModule } from 'src/auth/auth.module';
 import { DataloaderModule } from 'src/dataloader/dataloader.module';
 import {
   DataLoaders,
@@ -12,6 +11,7 @@ import { TasksModule } from 'src/tasks/tasks.module';
 import { UsersModule } from 'src/users/users.module';
 import { config } from 'dotenv';
 config();
+import { AuthModule } from './auth/auth.module';
 
 export interface GraphQLContext {
   dataloader: DataLoaders;
@@ -41,8 +41,8 @@ export interface GraphQLContext {
       inject: [DataloaderService],
     }),
     TasksModule,
-    AuthModule,
     UsersModule,
+    AuthModule,
   ],
   providers: [DateScalar],
 })

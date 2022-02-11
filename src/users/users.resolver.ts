@@ -1,4 +1,4 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Query, Resolver } from '@nestjs/graphql';
 import { ParseUUIDPipe } from '@nestjs/common';
 import { User } from './users.entity';
 import { UsersService } from './users.service';
